@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Registrar.Models;
@@ -37,7 +38,7 @@ namespace Registrar.Controllers
     public ActionResult Details(int id)
     {
       var thisCourse = _db.Courses
-          .Include(cours => course.JoinEntities)
+          .Include(course => course.JoinEntities)
           .ThenInclude(join => join.Student)
           .FirstOrDefault(course => course.CourseId == id);
       return View(thisCourse);
@@ -53,6 +54,24 @@ namespace Registrar.Controllers
     {
       _db.Entry(course).State = EntityState.Modified;
       _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult AddStudent(int id)
+    {
+      var thisCourse = _db.Courses.FirstOrDefault(course => course.CourseId == id);
+      ViewBag.StudentId = new SelectList(_db.Students, "StudentId", "StudentName");
+      return View(thisCourse);
+    }
+
+    [HttpPost]
+    public ActionResult AddStudent(Course course, int StudentId)
+    {
+      if (StudentId != 0)
+      {
+        _db.CourseStudent.Add(new CourseStudent() { StudentId = StudentId, CourseId = course.CourseId });
+        _db.SaveChanges();
+      }
       return RedirectToAction("Index");
     }
 

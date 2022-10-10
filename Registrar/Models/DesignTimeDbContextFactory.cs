@@ -8,7 +8,7 @@ namespace Registrar.Models
   public class RegistrarContextFactory : IDesignTimeDbContextFactory<RegistrarContext>
   {
 
-    ToDoListContext IDesignTimeDbContextFactory<RegistrarContext>.CreateDbContext(string[] args)
+    RegistrarContext IDesignTimeDbContextFactory<RegistrarContext>.CreateDbContext(string[] args)
     {
       IConfigurationRoot configuration = new ConfigurationBuilder()
           .SetBasePath(Directory.GetCurrentDirectory())

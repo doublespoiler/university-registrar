@@ -1,0 +1,42 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Registrar.Models.Student
+
+<h2>Student Details</h2>
+<hr />
+<h3>@Html.DisplayNameFor(model => model.StudentName): @Html.DisplayFor(model => model.StudentName)</h3>
+<h3>Enrollment Date: @Html.DisplayFor(model => model.StudentName)</h3>
+
+@if(@Model.JoinEntities.Count == 0)
+{
+  <p>This student does not belong to any courses</p>
+}
+else
+{
+  <h4>Courses the student belongs to:</h4>
+  <ul>
+  @foreach(var join in Model.JoinEntities)
+  {
+    <li>@join.Course.CourseName</li>
+  }
+  </ul>
+}
+
+<ul>
+@foreach(var join in Model.JoinEntities)
+{
+  <li>@join.Course.CourseName</li>
+  @using (Html.BeginForm("DeleteCourse", "Students"))
+  {
+    @Html.Hidden("joinId", @join.CourseStudentId)
+    <input type="submit" value="Delete"/>
+  }
+}
+</ul>
+
+<p>@Html.ActionLink("Back to list", "Index")</p>
+<p>@Html.ActionLink("Edit Student", "Edit", new { id = Model.StudentId })</p>
+<p>@Html.ActionLink("Delete Student", "Delete", new { id = Model.StudentId })</p>
+<p>@Html.ActionLink("Add a Course", "AddCourse", new { id = Model.StudentId })</p>

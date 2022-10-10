@@ -1,0 +1,29 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Registrar.Models.Course
+
+<h2>Course Details</h2>
+<hr />
+<h3>@Html.DisplayNameFor(model => model.CourseName): @Html.DisplayFor(model => model.CourseName)</h3>
+@if(@Model.JoinEntities.Count == 0)
+{
+  <p>This Course has no students.</p>
+}
+else
+{
+  <h4>Students in this course:</h4>
+  <ul>
+    @foreach(var join in Model.JoinEntities)
+    {
+      <li>@join.Student.StudentName</li>
+    }
+  </ul>
+}
+
+<p>@Html.ActionLink("Add a Student", "AddStudent", new { id = Model.CourseId })</p>
+
+<p>@Html.ActionLink("Back to all courses", "Index")</p>
+<p>@Html.ActionLink("Edit Course", "Edit", new { id = Model.CourseId })</p>
+<p>@Html.ActionLink("Delete Course", "Delete", new { id = Model.CourseId })</p>

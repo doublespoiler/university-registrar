@@ -10,6 +10,7 @@ namespace Registrar.Models
         }
 
         public int StudentId { get; set; }
+        public string StudentName { get; set; }
         public string EnrollDate { get; set; }
 
         public virtual ICollection<CourseStudent> JoinEntities { get;}

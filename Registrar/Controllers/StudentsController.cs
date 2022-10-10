@@ -23,7 +23,7 @@ namespace Registrar.Controllers
 
     public ActionResult Create()
     {
-      ViewBag.CourseId = new SelectList(_db.Courses, "CourseId", "Name");
+      ViewBag.CourseId = new SelectList(_db.Courses, "CourseId", "CourseName");
       return View();
     }
 
@@ -57,7 +57,7 @@ namespace Registrar.Controllers
     }
 
     [HttpPost]
-    public ActionResult Edit(Student student)
+    public ActionResult Edit(Student student, int CourseId)
     {
         if (CourseId != 0)
         {
