@@ -18,12 +18,13 @@ namespace Registrar.Controllers
 
     public ActionResult Index()
     {
-      return View(_db.Students.ToList());
+      return View(_db.Students.ToList().OrderBy(model => model.StudentName).ToList());
     }
 
     public ActionResult Create()
     {
       ViewBag.CourseId = new SelectList(_db.Courses, "CourseId", "CourseName");
+      ViewBag.DepartmentId = new SelectList(_db.Departments, "DepartmentId", "DepartmentName");
       return View();
     }
 
@@ -51,27 +52,28 @@ namespace Registrar.Controllers
 
     public ActionResult Edit(int id)
     {
-        var thisStudent = _db.Students.FirstOrDefault(student => student.StudentId == id);
-        ViewBag.CourseId = new SelectList(_db.Courses, "CourseId", "Name");
-        return View(thisStudent);
+      var thisStudent = _db.Students.FirstOrDefault(student => student.StudentId == id);
+      ViewBag.CourseId = new SelectList(_db.Courses, "CourseId", "CourseName");
+      ViewBag.DepartmentId = new SelectList(_db.Departments, "DepartmentId", "DepartmentName");
+      return View(thisStudent);
     }
 
     [HttpPost]
     public ActionResult Edit(Student student, int CourseId)
     {
-        if (CourseId != 0)
-        {
-          _db.CourseStudent.Add(new CourseStudent() { CourseId = CourseId, StudentId = student.StudentId });
-        }
-        _db.Entry(student).State = EntityState.Modified;
-        _db.SaveChanges();
-        return RedirectToAction("Index");
+      if (CourseId != 0)
+      {
+        _db.CourseStudent.Add(new CourseStudent() { CourseId = CourseId, StudentId = student.StudentId });
+      }
+      _db.Entry(student).State = EntityState.Modified;
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
 
     public ActionResult AddCourse(int id)
     {
         var thisStudent = _db.Students.FirstOrDefault(student => student.StudentId == id);
-        ViewBag.CourseId = new SelectList(_db.Courses, "CourseId", "Name");
+        ViewBag.CourseId = new SelectList(_db.Courses, "CourseId", "CourseName");
         return View(thisStudent);
     }
 

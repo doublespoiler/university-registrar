@@ -1,0 +1,35 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Registrar.Models.Department
+
+<h2>Department Details: @Html.DisplayFor(model => model.DepartmentName)</h2>
+@Html.ActionLink("Edit Department", "Edit", new { id = Model.DepartmentId }, new {@class = "btn btn-primary"})
+<!--When you class ActionLinks with args, you don't put the controller in arguments-->
+@Html.ActionLink("Delete Department", "Delete", new { id = Model.DepartmentId }, new {@class = "btn btn-primary"})
+<!--You have to add the name of the controller also to class actionlinks with no args-->
+@Html.ActionLink("Back to list", "Index", "Departments", null, new {@class = "btn btn-primary"}) 
+<hr />
+
+<h3>Courses in this Department</h3>
+@if(Model.Courses.Count == 0)
+{
+  <p>There are no courses in this department yet!</p>
+}
+<ul>
+@foreach (var course in Model.Courses)
+{
+  <li>@Html.ActionLink($"{course.CourseName}", "Details", "Courses", new { id = course.CourseId })</li>
+}
+</ul>
+
+<h3>Students in this Department</h3>
+@if(Model.Students.Count == 0)
+{
+  <p>There are no students in this department yet!</p>
+}
+@foreach (var student in Model.Students)
+{
+  <li>@Html.ActionLink($"{student.StudentName}", "Details", "Students", new { id = student.StudentId })</li>
+}

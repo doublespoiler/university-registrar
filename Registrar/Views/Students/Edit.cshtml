@@ -19,8 +19,10 @@
 
     @Html.Label("Select course")
     @Html.DropDownList("CourseId")
+    
+    @Html.Label("Select Department")
+    @Html.DropDownList("DepartmentId")
 
     <input type="submit" value="Save" />
 }
-
 <p>@Html.ActionLink("Back to list", "Index")</p>
